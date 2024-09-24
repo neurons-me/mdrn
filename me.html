@@ -1,0 +1,66 @@
+<div id="draggable-container">
+    <button class="button-circle">.me</button>
+</div>
+<script>
+    let draggedItem = null;
+    let offsetX = 0, offsetY = 0;
+
+    document.querySelector('.button-circle').addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        const rect = this.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        draggedItem = this;
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mouseup', onMouseUp);
+    });
+
+    function onMouseMove(e) {
+        if (draggedItem) {
+            draggedItem.style.left = (e.clientX - offsetX) + 'px';
+            draggedItem.style.top = (e.clientY - offsetY) + 'px';
+        }
+    }
+
+    function onMouseUp() {
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+        draggedItem = null;
+    }
+</script>
+<style>
+.button-circle {
+    border: none;
+    outline: none;
+    width: 55px;
+    height: 55px;
+    border-radius: 55%;
+    background: linear-gradient(145deg, #cacaca, #f0f0f0);
+    box-shadow: 8px 8px 21px #bebebe34, -8px -8px 21px #ffffff54;
+    font-size: 1rem;
+    color: #555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: absolute;
+    top: 10px; /* Fix to top */
+    right: 10px; /* Fix to right */
+}
+
+.button-circle:hover {
+    background: linear-gradient(145deg, #f0f0f0, #cacaca);
+}
+
+.button-circle:active {
+    background: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+    .button-circle {
+        width: 200px;
+        height: 200px;
+        font-size: 3rem;
+    }
+}
+</style>

@@ -8,9 +8,6 @@
 </head>
 <body>
     <div id="container"></div>
-    <div id="draggable-container">
-        <button class="button-circle">.me</button>
-    </div>
     <script type="module" src="./src/js/main.js"></script>
     <script>
         async function includeHTML(file) {
@@ -20,7 +17,7 @@
             tempDiv.innerHTML = text;
             document.body.appendChild(tempDiv);
         }
-        includeHTML('/draggable-button.html');
+        includeHTML('/me.html');
     </script>
 </body>
 </html>

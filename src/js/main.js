@@ -1,9 +1,8 @@
 import * as THREE from 'three';
-import { createWireframeSphere } from '../objects/wireframeSphere.js';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { createSkySphere } from '../objects/skySphere.js';
 import { createCamera, updateCameraPosition } from './cameraControl.js';
 import { loadTexture } from './Texture/textureLoader.js';
-import { createWireframeBox } from '../objects/box.js';
 
 // Set up the scene, camera, and renderer
 const scene = new THREE.Scene();
@@ -32,30 +31,38 @@ document.addEventListener('keyup', (event) => {
 // Create objects
 const skySphere = createSkySphere();
 scene.add(skySphere);
-const wireframeSphere = createWireframeSphere(scene, 0x0000ff);
-const wireframeSphere2 = createWireframeSphere(scene, 0x00ff00);
-const box = createWireframeBox(scene, 0x0000ff);
 
 // Create the rotating vector in 8-bit pixel art style
 const vectorLength = 5;
 const vectorGeometry = new THREE.BoxGeometry(0.2, vectorLength, 0.2);
 const vectorMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-
 const vector = new THREE.Mesh(vectorGeometry, vectorMaterial);
 vector.position.y = vectorLength / 2;
 scene.add(vector);
+// Load and add the MonadLisa.obj file
+const objLoader = new OBJLoader();
+objLoader.load(
+    './src /objects/MonadLisa.obj',
+    (object) => {
+        object.position.set(0, 0, 0);
+        scene.add(object);
+    },
+    (xhr) => {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    (error) => {
+        console.error('An error happened', error);
+    }
+);
 
 // Animation loop
 const animate = () => {
     requestAnimationFrame(animate);
     updateCameraPosition(camera, keys);
-
     // Rotate the vector to simulate continuous rotation
     vector.rotation.z += 0.01;
-
     renderer.render(scene, camera);
 };
-
 animate();
 
 // Handle window resize
