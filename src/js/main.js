@@ -1,3 +1,4 @@
+//mdrn/src/js/main.js
 import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { createSkySphere } from '../objects/skySphere.js';
